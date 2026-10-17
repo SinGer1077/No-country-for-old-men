@@ -722,6 +722,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599973272 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1854506663356793854, guid: 7dac505b4eab54f46b5e9c670df01323, type: 3}
+  m_PrefabInstance: {fileID: 2114371087840001511}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4760151767e53b49999eb3db9ecaf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,6 +1394,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 3676771616130520785, guid: 6ff171c45bec3d74da24e59eb4e07fa8, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 599973272}
+    - target: {fileID: 3676771616130520785, guid: 6ff171c45bec3d74da24e59eb4e07fa8, type: 3}
       propertyPath: 'patrolPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 215530917}
@@ -1451,6 +1466,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1854506663356793854, guid: 7dac505b4eab54f46b5e9c670df01323, type: 3}
+      propertyPath: aimPivot
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2242124682591344379, guid: 7dac505b4eab54f46b5e9c670df01323, type: 3}
       propertyPath: m_Name
       value: MainCharacter

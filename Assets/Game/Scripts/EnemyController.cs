@@ -1,8 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum EnemyState
+{
+    Patrol,
+    Chase,
+    Fire,
+    Rest
+}
+
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private PlayerController2D character;
+
     [Header("Movement")]
     [SerializeField] private NavMeshAgent agent;
     [SerializeField, Min(0f)] private float moveSpeed = 5f;
@@ -22,14 +32,37 @@ public class EnemyController : MonoBehaviour
     private Vector2 moveInput;
     private float nextShotTime;
 
+    private EnemyState currentState;
+
+    // chase
+    private float chaseUpdateDelta = 0.0f; 
+
     private void Awake()
     {
+        if (character == null)
+        {
+            character = FindFirstObjectByType<PlayerController2D>();
+        }
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        currentState = EnemyState.Patrol;
     }
 
     private void FixedUpdate()
     {
+        switch (currentState)
+        {
+            case EnemyState.Patrol: 
+                ReadMovement();
+                break;
+
+            case EnemyState.Chase:
+                ChaseCharacter(); 
+                break;
+
+        }
         ReadMovement();
         UpdateRotation();
     }
@@ -42,6 +75,17 @@ public class EnemyController : MonoBehaviour
             agent.SetDestination(patrolPoints[currentPointIndex].position);
         }
 
+    }
+
+    private void ChaseCharacter()
+    {
+        if (chaseUpdateDelta <= 0.0f)
+        {
+            agent.SetDestination(character.transform.position);
+            chaseUpdateDelta = 1.0f;
+        }
+
+        chaseUpdateDelta -= Time.fixedDeltaTime;
     }
 
     private void UpdateRotation()
@@ -63,4 +107,15 @@ public class EnemyController : MonoBehaviour
             rotationSpeed * Time.deltaTime
         );
     }
+
+    public void StartChase()
+    {
+        currentState = EnemyState.Chase;
+    }
+
+    public void ContinuePatrol()
+    {
+        currentState = EnemyState.Patrol;
+    }
+
 }
