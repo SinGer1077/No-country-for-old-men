@@ -5,6 +5,7 @@ public class PlayerController2D : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField, Min(0f)] private float moveSpeed = 5f;
+    [SerializeField] private Rigidbody2D rb;
 
     [Header("Aiming")]
     [SerializeField] private Transform aimPivot;
@@ -45,7 +46,7 @@ public class PlayerController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += (Vector3)(moveInput * moveSpeed * Time.fixedDeltaTime);
+        rb.linearVelocity = moveInput.normalized * moveSpeed;
     }
 
     private void AimAtMouse()
