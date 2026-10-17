@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9069347971759546526}
   - component: {fileID: 3676771616130520785}
   - component: {fileID: 6894991233484979417}
+  - component: {fileID: 4110898963871735403}
   - component: {fileID: 7542096616503448242}
   m_Layer: 7
   m_Name: Enemy
@@ -47,7 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189dcb3e1f2e8db479bafe1a9a8192fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 4110898963871735403}
   moveSpeed: 5
+  visual: {fileID: 7335755156213301499}
+  rotationSpeed: 360
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   firePoint: {fileID: 3209821515539400363}
   fireCooldown: 0.25
   maxShotDistance: 20
@@ -65,6 +74,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 2
+--- !u!195 &4110898963871735403
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2633421149877485788}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!61 &7542096616503448242
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -169,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 4794785142840478886}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []

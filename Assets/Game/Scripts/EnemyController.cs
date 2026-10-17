@@ -1,11 +1,17 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Movement")]
+    [SerializeField] private NavMeshAgent agent;
     [SerializeField, Min(0f)] private float moveSpeed = 5f;
-    private EnemyMovingAlgorithm movingAlgorithm;
+    [SerializeField] private Transform visual;
+    [SerializeField] private float rotationSpeed = 360f;
 
+    [SerializeField]
+    private Transform[] patrolPoints;
+    private int currentPointIndex = 0;
 
     [Header("Shooting")]
     [SerializeField] private Transform firePoint;
@@ -18,18 +24,43 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        movingAlgorithm = new EnemyMovingAlgorithm();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     private void FixedUpdate()
     {
         ReadMovement();
+        UpdateRotation();
     }
 
     private void ReadMovement()
     {
-        //todo realize some algorithm for patroling here
-        moveInput = movingAlgorithm.SimpleMovement(Time.time).normalized;
-        transform.position += (Vector3)(moveInput * moveSpeed * Time.fixedDeltaTime);
+        if (!agent.pathPending && agent.remainingDistance < 0.1f)
+        {
+            currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
+            agent.SetDestination(patrolPoints[currentPointIndex].position);
+        }
+
+    }
+
+    private void UpdateRotation()
+    {
+        Vector2 direction = agent.desiredVelocity;
+
+        if (direction.sqrMagnitude < 0.01f)
+            return;
+
+        float angle = Mathf.Atan2(direction.y, direction.x)
+                      * Mathf.Rad2Deg - 90f;
+
+        Quaternion targetRotation =
+            Quaternion.Euler(0f, 0f, angle);
+
+        visual.rotation = Quaternion.RotateTowards(
+            visual.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
 }

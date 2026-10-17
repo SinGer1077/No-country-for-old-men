@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMovingAlgorithm
+public class EnemyMovingAlgorithm: MonoBehaviour
 {
     public float angularSpeed = 1f;
     public float circleRad = 1f;
