@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9069347971759546526}
   - component: {fileID: 3676771616130520785}
+  - component: {fileID: 6894991233484979417}
   - component: {fileID: 7542096616503448242}
   m_Layer: 7
   m_Name: Enemy
@@ -50,6 +51,20 @@ MonoBehaviour:
   firePoint: {fileID: 3209821515539400363}
   fireCooldown: 0.25
   maxShotDistance: 20
+  damage: 1
+--- !u!114 &6894991233484979417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2633421149877485788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d5fcafe82b8b142a763da557fb8ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 2
 --- !u!61 &7542096616503448242
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField, Min(0f)] private float fireCooldown = 0.25f;
     [SerializeField, Min(0f)] private float maxShotDistance = 20f;
     [SerializeField] private LayerMask hitLayers = ~0;
+    [SerializeField, Min(0f)] private float damage;
 
     private Camera mainCamera;
     private Vector2 moveInput;
@@ -78,6 +79,11 @@ public class PlayerController2D : MonoBehaviour
         {
             Debug.DrawLine(origin, hit.point, Color.red, 0.2f);
             Debug.Log("Shot hit: " + hit.collider.name);
+            HPController hp;
+            if (hit.collider.TryGetComponent<HPController>(out hp))
+            {
+                hp.TakeDamage(damage);
+            }
         }
         else
         {

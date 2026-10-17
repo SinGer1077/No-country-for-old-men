@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField, Min(0f)] private float fireCooldown = 0.25f;
     [SerializeField, Min(0f)] private float maxShotDistance = 20f;
+    [SerializeField, Min(0f)] private float damage;
 
     private Vector2 moveInput;
     private float nextShotTime;
