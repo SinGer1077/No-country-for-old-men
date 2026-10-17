@@ -143,7 +143,7 @@ MonoBehaviour:
   maxShotDistance: 20
   hitLayers:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 179
   damage: 1
 --- !u!114 &2453891738493773205
 MonoBehaviour:

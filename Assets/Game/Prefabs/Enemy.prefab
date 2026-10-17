@@ -156,7 +156,7 @@ MonoBehaviour:
   foundedSprite: {fileID: 7688204442332924795}
   hitLayer:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 115
   timeToChase: 5
   controller: {fileID: 3676771616130520785}
 --- !u!1 &2633421149877485788
@@ -218,9 +218,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   firePoint: {fileID: 3209821515539400363}
-  fireCooldown: 0.25
+  fireCooldown: 1
+  prepareShotTime: 0.5
+  restTime: 0.5
   maxShotDistance: 20
   damage: 1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 115
 --- !u!114 &6894991233484979417
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,35 +20,24 @@ public class EnemyDetectController : MonoBehaviour
         currentChaseTimer = 0.0f;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //if (collision.tag == "Player")
-        //{
-        //    RaycastHit2D hit = Physics2D.Raycast(directionPos.position, directionPos.up, 10.0f, hitLayer.value);
-        //    if (hit.collider != null && hit.collider.tag == "Player")
-        //    {
-        //        Debug.Log("Founded!!!");
-        //        foundedSprite.enabled = true;
-        //        controller.StartChase();
-        //        currentChaseTimer = 0.0f;
-        //    }
-        //}
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player"))
             return;
 
+        Vector2 origin = directionPos.position;
+        Vector2 target = controller.character.transform.position;
+        Vector2 direction = target - origin;
+
         RaycastHit2D[] hits = Physics2D.RaycastAll(
-            directionPos.position,
-            directionPos.up,
+            origin,
+            direction,
             10f
         );
 
         Debug.DrawRay(
-            directionPos.position,
-            directionPos.up * 10f,
+            origin,
+            direction * 10f,
             Color.red
         );
 
