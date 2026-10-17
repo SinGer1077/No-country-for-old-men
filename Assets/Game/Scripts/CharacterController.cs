@@ -44,8 +44,6 @@ public class PlayerController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Transform movement is simple for a jam prototype.
-        // If you use Rigidbody2D physics, switch this to Rigidbody2D.MovePosition.
         transform.position += (Vector3)(moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
