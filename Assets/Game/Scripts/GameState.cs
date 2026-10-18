@@ -12,6 +12,8 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private Image winImage;
     [SerializeField]
+    private Image picture;
+    [SerializeField]
     private Image loseImage;
     [SerializeField]
     private Image backPanel;
@@ -23,6 +25,7 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         winImage.gameObject.SetActive(false);
+        picture.gameObject.SetActive(false);
         loseImage.gameObject.SetActive(false);
         backPanel.gameObject.SetActive(false);
         retryButton.gameObject.SetActive(false);
@@ -39,6 +42,9 @@ public class GameState : MonoBehaviour
         button.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
         retryButton.DOColor(new Color(retryButton.color.r, retryButton.color.g, retryButton.color.b, 1.0f), 2.0f);
+
+        picture.gameObject.SetActive(true);
+        picture.DOColor(new Color(picture.color.r, picture.color.g, picture.color.b, 1.0f), 2.0f);
     }
 
     public void Lose()

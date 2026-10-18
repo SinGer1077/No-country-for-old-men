@@ -40,6 +40,8 @@ public class PlayerController2D : MonoBehaviour
     private bool isReloading;
     private float reloadTimer;
 
+    public ItemPickupController pickedUpItem;
+
     // Public properties for UI.
     public int AmmoInMagazine => ammoInMagazine;
     public int MagazineSize => magazineSize;
@@ -237,6 +239,11 @@ public class PlayerController2D : MonoBehaviour
             firePoint.position,
             firePoint.position + firePoint.right * maxShotDistance
         );
+    }
+
+    public void PickUpItem(ItemPickupController item)
+    {
+        pickedUpItem = item;
     }
 }
 

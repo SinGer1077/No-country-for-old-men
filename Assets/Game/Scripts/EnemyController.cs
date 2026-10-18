@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private LayerMask hitLayers = ~0;
     [SerializeField] private ParticleSystem prepareShotVFX;
     [SerializeField] private Transform visualShotPoint;
+    [SerializeField] private AudioSource laserShot;
 
     [Header("Check / Investigation")]
     [SerializeField, Min(0.1f)] private float checkRadius = 5f;
@@ -226,6 +227,7 @@ public class EnemyController : MonoBehaviour
         shotTrace.enabled = true;
         shotTrace.startColor = startColor;
         shotTrace.endColor = endColor;
+        laserShot.Play();
 
         routine = StartCoroutine(FadeOut());
 
@@ -277,6 +279,7 @@ public class EnemyController : MonoBehaviour
     public void StartChase()
     {
         currentState = EnemyState.Chase;
+        questionSprite.enabled = false;
 
         isLookingAround = false;
         agent.isStopped = false;
