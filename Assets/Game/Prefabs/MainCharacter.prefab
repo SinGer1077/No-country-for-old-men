@@ -519,6 +519,11 @@ MonoBehaviour:
   ImpactSound: {fileID: 6966568448562346044}
   Trace: {fileID: 2178927165147775594}
   hitVfx: {fileID: 3743173967524355012, guid: d6328634ff4ff6845a392b309aa59dc4, type: 3}
+  magazineSize: 6
+  reloadDuration: 2
+  reloadProgressImage: {fileID: 0}
+  bulletController: {fileID: 0}
+  reloadHelpText: {fileID: 0}
 --- !u!114 &2453891738493773205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,9 +540,38 @@ MonoBehaviour:
   bloodVFX: {fileID: 1349947066425504756}
   spritesToFlash:
   - {fileID: 8651745273297123125}
-  - {fileID: 8604998134255352063}
   - {fileID: 1641436337752809408}
   - {fileID: 3104650458839342611}
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1854506663356793854}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1494629416178816166}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &1494629416178816166
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10698,7 +10732,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8711797740173248458}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

@@ -33,6 +33,9 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField] private BulletController bulletController;
     [SerializeField] private TextMeshProUGUI reloadHelpText;
 
+    [SerializeField]
+    private NoiseController noiseController;
+
     private int ammoInMagazine;
     private bool isReloading;
     private float reloadTimer;
@@ -176,7 +179,7 @@ public class PlayerController2D : MonoBehaviour
         {
             Debug.DrawLine(origin, hit.point, Color.red, 0.2f);
             Debug.Log("Shot hit: " + hit.collider.name);
-
+            noiseController.MakeNoise(hit.point);
             if (hit.collider.TryGetComponent<HPController>(out HPController hp))
             {
                 hp.TakeDamage(damage);
@@ -195,6 +198,8 @@ public class PlayerController2D : MonoBehaviour
                 0.2f
             );
         }
+
+        noiseController.MakeNoise(origin);
 
         if (Impact != null)
             Impact.enabled = true;

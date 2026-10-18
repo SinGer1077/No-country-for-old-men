@@ -7,7 +7,8 @@ public enum EnemyState
     Patrol,
     Chase,
     Fire,
-    Rest
+    Rest,
+    Check
 }
 
 public class EnemyController : MonoBehaviour
@@ -34,6 +35,17 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private LayerMask hitLayers = ~0;
     [SerializeField] private ParticleSystem prepareShotVFX;
     [SerializeField] private Transform visualShotPoint;
+
+    [Header("Check / Investigation")]
+    [SerializeField, Min(0.1f)] private float checkRadius = 5f;
+    [SerializeField, Min(0f)] private float checkLookDuration = 3f;
+    [SerializeField, Min(0.1f)] private float checkPointSampleDistance = 1.5f;
+
+    [SerializeField]
+    private SpriteRenderer questionSprite;
+
+    private Vector3 checkTarget;
+    private bool isLookingAround;
 
 
     [SerializeField] private LineRenderer shotTrace;
@@ -87,6 +99,10 @@ public class EnemyController : MonoBehaviour
 
             case EnemyState.Rest:
                 HandleRest();
+                break;
+
+            case EnemyState.Check:
+                HandleCheck();
                 break;
 
         }
@@ -262,6 +278,9 @@ public class EnemyController : MonoBehaviour
     {
         currentState = EnemyState.Chase;
 
+        isLookingAround = false;
+        agent.isStopped = false;
+
         chaseUpdateDelta = 0f;
         nextShotTime = Time.time + fireCooldown;
     }
@@ -269,8 +288,124 @@ public class EnemyController : MonoBehaviour
     public void ContinuePatrol()
     {
         currentState = EnemyState.Patrol;
+        isLookingAround = false;
 
+        agent.isStopped = false;
         agent.ResetPath();
+
+        if (patrolPoints == null || patrolPoints.Length == 0)
+            return;
+
+        agent.SetDestination(
+            patrolPoints[currentPointIndex].position
+        );
+    }
+
+     public void CheckState(Vector3 pointToCheck)
+     {
+        if (currentState == EnemyState.Chase ||
+            currentState == EnemyState.Fire ||
+            currentState == EnemyState.Rest)
+        {
+            return;
+        }
+
+        if (!TryGetRandomNavMeshPoint(
+                pointToCheck,
+                checkRadius,
+                out checkTarget))
+        {
+            // Если подходящую точку найти не удалось,
+            // попробуем дойти непосредственно до шума.
+            if (!NavMesh.SamplePosition(
+                    pointToCheck,
+                    out NavMeshHit hit,
+                    checkPointSampleDistance,
+                    agent.areaMask))
+            {
+                return;
+            }
+
+            checkTarget = hit.position;
+        }
+
+        currentState = EnemyState.Check;
+        isLookingAround = false;
+
+        agent.isStopped = false;
+        agent.SetDestination(checkTarget);
+     }
+
+    private bool TryGetRandomNavMeshPoint(Vector3 center, float radius, out Vector3 result)
+    {
+        result = Vector3.zero;
+
+        const int attempts = 30;
+
+        for (int i = 0; i < attempts; i++)
+        {
+            Vector2 offset = Random.insideUnitCircle * radius;
+
+            Vector3 candidate = center + new Vector3(
+                offset.x,
+                offset.y,
+                0f
+            );
+
+            if (NavMesh.SamplePosition(
+                    candidate,
+                    out NavMeshHit hit,
+                    checkPointSampleDistance,
+                    agent.areaMask))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void HandleCheck()
+    {
+        questionSprite.enabled = true;
+        if (!isLookingAround)
+        {
+            if (agent.pathPending)
+                return;
+
+            if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
+            {
+                ContinuePatrol();
+                return;
+            }
+
+            if (agent.remainingDistance >
+                agent.stoppingDistance + 0.05f)
+            {
+                return;
+            }
+
+            agent.ResetPath();
+            agent.isStopped = true;
+
+            isLookingAround = true;
+            stateTimer = checkLookDuration;
+        }
+
+        visual.Rotate(
+            0f,
+            0f,
+            rotationSpeed * Time.fixedDeltaTime
+        );
+
+        stateTimer -= Time.fixedDeltaTime;
+
+        if (stateTimer <= 0f)
+        {
+            questionSprite.enabled = false;
+            ContinuePatrol();
+        }
     }
 
 }

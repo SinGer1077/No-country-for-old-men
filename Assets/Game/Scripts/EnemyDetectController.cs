@@ -82,7 +82,16 @@ public class EnemyDetectController : MonoBehaviour
             {
                 controller.ContinuePatrol();
                 foundedSprite.enabled = false;
+                playerDetected = false;
             }
         }
+    }
+
+    public void StartChase()
+    {
+        foundedSprite.enabled = true;
+        controller.StartChase();
+        playerDetected = true;
+        currentChaseTimer = 0f;
     }
 }
