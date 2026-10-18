@@ -16,6 +16,10 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField, Min(0f)] private float maxShotDistance = 20f;
     [SerializeField] private LayerMask hitLayers = ~0;
     [SerializeField, Min(0f)] private float damage;
+    [SerializeField] private SpriteRenderer Impact;
+    [SerializeField] private ParticleSystem ImpactVFX;
+    [SerializeField] private AudioSource ImpactSound;
+    [SerializeField] private ParticleSystem Trace;
 
     private Camera mainCamera;
     private Vector2 moveInput;
@@ -85,11 +89,22 @@ public class PlayerController2D : MonoBehaviour
             {
                 hp.TakeDamage(damage);
             }
+
+            Impact.enabled = true;
+            ImpactVFX.Play();
+            ImpactSound.Play();
+            Trace.Play();
+            Invoke("DisableImpact", 0.1f);
         }
         else
         {
             Debug.DrawRay(origin, direction * maxShotDistance, Color.yellow, 0.2f);
         }
+    }
+
+    private void DisableImpact()
+    {
+        Impact.enabled = false;
     }
 
     private void OnDrawGizmosSelected()

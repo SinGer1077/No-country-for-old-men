@@ -31,6 +31,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Min(0f)] private float maxShotDistance = 20f;
     [SerializeField, Min(0f)] private float damage;
     [SerializeField] private LayerMask hitLayers = ~0;
+    [SerializeField] private ParticleSystem prepareShotVFX;
 
     private Vector2 moveInput;
     private float nextShotTime;
@@ -133,6 +134,11 @@ public class EnemyController : MonoBehaviour
     private void HandleShooting()
     {
         stateTimer -= Time.fixedDeltaTime;
+
+        if (!prepareShotVFX.isPlaying)
+        {
+            prepareShotVFX.Play();
+        }
 
         if (stateTimer > 0f)
             return;
