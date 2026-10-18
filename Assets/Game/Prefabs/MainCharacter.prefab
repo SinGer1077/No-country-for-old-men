@@ -518,6 +518,7 @@ MonoBehaviour:
   ImpactVFX: {fileID: 972886740188290333}
   ImpactSound: {fileID: 6966568448562346044}
   Trace: {fileID: 2178927165147775594}
+  hitVfx: {fileID: 3743173967524355012, guid: d6328634ff4ff6845a392b309aa59dc4, type: 3}
 --- !u!114 &2453891738493773205
 MonoBehaviour:
   m_ObjectHideFlags: 0

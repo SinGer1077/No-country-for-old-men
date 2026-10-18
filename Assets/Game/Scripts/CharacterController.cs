@@ -20,6 +20,7 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField] private ParticleSystem ImpactVFX;
     [SerializeField] private AudioSource ImpactSound;
     [SerializeField] private ParticleSystem Trace;
+    [SerializeField] private ParticleSystem hitVfx;
 
     private Camera mainCamera;
     private Vector2 moveInput;
@@ -89,17 +90,21 @@ public class PlayerController2D : MonoBehaviour
             {
                 hp.TakeDamage(damage);
             }
-
-            Impact.enabled = true;
-            ImpactVFX.Play();
-            ImpactSound.Play();
-            Trace.Play();
-            Invoke("DisableImpact", 0.1f);
+            else
+            {
+                Instantiate(hitVfx, hit.point, Quaternion.identity);
+            }
         }
         else
         {
             Debug.DrawRay(origin, direction * maxShotDistance, Color.yellow, 0.2f);
         }
+
+        Impact.enabled = true;
+        ImpactVFX.Play();
+        ImpactSound.Play();
+        Trace.Play();
+        Invoke("DisableImpact", 0.1f);
     }
 
     private void DisableImpact()

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,6 +33,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Min(0f)] private float damage;
     [SerializeField] private LayerMask hitLayers = ~0;
     [SerializeField] private ParticleSystem prepareShotVFX;
+    [SerializeField] private Transform visualShotPoint;
+
+
+    [SerializeField] private LineRenderer shotTrace;
+    private Color startColor;
+    private Color endColor;
+    private Coroutine routine;
+    private float traceDuration = 0.2f;
 
     private Vector2 moveInput;
     private float nextShotTime;
@@ -53,6 +62,11 @@ public class EnemyController : MonoBehaviour
         agent.updateUpAxis = false;
 
         currentState = EnemyState.Patrol;
+
+        startColor = shotTrace.startColor;
+        endColor = shotTrace.endColor;
+        shotTrace.positionCount = 2;
+        shotTrace.useWorldSpace = true;
     }
 
     private void FixedUpdate()
@@ -172,6 +186,9 @@ public class EnemyController : MonoBehaviour
             {
                 hp.TakeDamage(damage);
             }
+            shotTrace.SetPosition(0, visualShotPoint.position);
+            shotTrace.SetPosition(1, hit.point);
+
         }
         else
         {
@@ -181,9 +198,53 @@ public class EnemyController : MonoBehaviour
                 Color.yellow,
                 0.2f
             );
+
+            shotTrace.SetPosition(0, visualShotPoint.position);
+            shotTrace.SetPosition(1, direction * maxShotDistance);
         }
 
+        if (routine != null)
+            StopCoroutine(routine);
+
+        SetAlpha(1f);
+        shotTrace.enabled = true;
+        shotTrace.startColor = startColor;
+        shotTrace.endColor = endColor;
+
+        routine = StartCoroutine(FadeOut());
+
         nextShotTime = Time.time + fireCooldown;
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < traceDuration)
+        {
+            float t = elapsed / traceDuration;
+
+            SetAlpha(1f - t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        SetAlpha(0f);
+        shotTrace.enabled = false;
+        routine = null;
+    }
+
+    private void SetAlpha(float alpha)
+    {
+        Color s = startColor;
+        Color e = endColor;
+
+        s.a *= alpha;
+        e.a *= alpha;
+
+        shotTrace.startColor = s;
+        shotTrace.endColor = e;
     }
 
     private void HandleRest()
